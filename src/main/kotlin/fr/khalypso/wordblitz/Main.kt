@@ -1,26 +1,25 @@
 package fr.khalypso.wordblitz
 
-import fr.khalypso.wordblitz.search.Solver
-import java.io.File
+import fr.khalypso.wordblitz.board.BoardFactory
+import fr.khalypso.wordblitz.dictionary.DictionaryFactory
+import fr.khalypso.wordblitz.solver.Solver
+import fr.khalypso.wordblitz.solver.WordBlitzSearchState
 
 fun main() {
-    val dictionary = File("src/main/resources/touslesmots.txt").readLines().filter { it.isNotEmpty() }
+    val dictionary = DictionaryFactory.fromFile("src/main/resources/touslesmots.txt");
     println("Number of words parsed: ${dictionary.count()}")
-    println("Game characters:")
-    val characters = readLine()!!.trim().toUpperCase().toCharArray();
-    val gameMatrix = arrayOf(
-        characters.copyOfRange(0, 4),
-        characters.copyOfRange(4, 8),
-        characters.copyOfRange(8, 12),
-        characters.copyOfRange(12, 16)
-    );
-    println("Game matrix: ");
-    println(gameMatrix.contentDeepToString());
-    val solutions = Solver(dictionary, gameMatrix).findSolutions()
-    val sorted = solutions.sortedBy { it.buildSolution().length }
+    println("Board construction: ")
+    val board = BoardFactory.fromConsoleInput()
+    println("Board: ")
+    println(board)
+    val solutions = Solver(dictionary, board).findSolutions()
+    val sorted = solutions.sortedBy { it.size }
     println("Number of words found: ${sorted.size}");
-    sorted.forEach {
-        println(it.buildSolution())
-        it.displayPath()
+    sorted.forEach { solution ->
+        val finalState = solution.last.state
+        if (finalState !is WordBlitzSearchState) {
+            throw IllegalStateException("Unexpected state within the solution node")
+        }
+        println(finalState.boardState.pressedPath)
     }
 }

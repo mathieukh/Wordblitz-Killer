@@ -8,9 +8,10 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib'
-    implementation 'fr.khalypso:state-search-library:2.0.0'
+    implementation 'com.github.mathieukh:StateSearchLibrary:2.0.0'
 }
