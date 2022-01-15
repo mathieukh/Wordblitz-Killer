@@ -13,7 +13,7 @@ class Solver(private val words: Words, private val board: Board) {
 
     fun findSolutions(): List<Solution> {
         val solutions: MutableList<Solution> = ArrayList()
-        for (wordToSearch in words.searchedWords) {
+        words.searchedWords.parallelStream().forEach { wordToSearch ->
             val boardState = BoardState(board, listOf())
             val initialSearchState = WordBlitzSearchState(boardState, wordToSearch)
             try {
