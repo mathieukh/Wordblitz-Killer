@@ -10,7 +10,7 @@ data class BoardState(val board: Board, val pressedPath: List<CasePosition>) {
 
     val wordDrawn: String
         get() {
-            return pressedPath.map { board.caseAt(it) }.map { it.letter }.joinToString { "" }
+            return pressedPath.map { board.caseAt(it) }.map { it.letter }.joinToString("")
         }
 
     val accessibleCases: List<CasePosition>
